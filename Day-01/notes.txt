@@ -1,0 +1,39 @@
+JavaScript
+==========
+
+1. Functional - done
+2. Loosely typed - 
+3. Dynamic
+
+1. Functions are first class citizens (like data)
+
+2. 
+
+function add(x,y){
+    return x + y;
+}
+
+add(10,20)
+add("10", "20")
+add("abc", 10)
+add([10,20],[30,40])
+add(function(){ return 10 }, function(){ return 20;})
+add(10)
+add()
+add(10,20,30,40)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

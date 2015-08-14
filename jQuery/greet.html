@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Greet</title>
+    <script src="jquery-1.11.2.js"></script>
+    <script>
+        //$(document).ready(function(){
+        $(function(){
+            $("#btnGreet").click(function(){
+                var name = $("#txtFirstName").val() + " " + $("#txtLastName").val();
+                var msg = "Hi " + name + ", Have a nice day";
+                $("#divMessage").html(msg).delay(3000).fadeOut(2000);
+                var txtBoxes = [document.getElementById("txtFirstName"), document.getElementById("txtLastName")];
+                $(txtBoxes).val('');
+            });
+        });
+    </script>
+</head>
+<body>
+    <label for="">Name :</label>
+    <input type="text" name="" id="txtFirstName">
+    <input type="text" name="" id="txtLastName">
+    <input type="button" value="Greet" id="btnGreet">
+    <div id="divMessage"></div>
+</body>
+</html>
