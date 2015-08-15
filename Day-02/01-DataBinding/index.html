@@ -48,10 +48,17 @@
             }
             dataBinder.applyBindings(emp);
         }
+
+        /*
+            emp.name("Suresh") -- for setting
+            emp.name() -- for getting
+            emp.name.subscribe(function(){})
+        */
     </script>
 </head>
 <body>
-    <input type="text" data-bind="name">
-    <input type="text" name="" id="">
+    <input type="text" data-bind="name" id="txtName">
+    <input type="text">
+    <div data-text="name"></div>
 </body>
 </html>
