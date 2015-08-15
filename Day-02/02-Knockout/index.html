@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.11.2.js"></script>
+    <script src="knockout-3.3.0.js"></script>
+    <script>
+
+    window.addEventListener("DOMContentLoaded", init);
+        function init(){
+            window.emp = {
+                firstName : ko.observable("Magesh"),
+                lastName : ko.observable("Kuppan"),
+                greetMsg : ko.observable("[Greet message will be displayed here]"),
+                greet : function(){
+                    var msg = "Hi " + this.firstName() + " " + this.lastName();
+                    this.greetMsg(msg);
+                }
+            }
+            ko.applyBindings(emp);
+        }
+
+    </script>
+</head>
+<body>
+    <input type="text" data-bind="value: firstName" id="txtFirstName">
+    <input type="text" data-bind="value: lastName" id="txtLastName">
+
+    <input type="button" value="Greet" data-bind="click: greet">
+
+    <div data-bind="text: greetMsg"></div>
+</body>
+</html>
