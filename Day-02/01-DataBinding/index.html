@@ -11,18 +11,17 @@
                 var observableObject = (function(value){
                     var _value = value;
                     var _handlers = [];
-                    return {
-                        get : function(){
+                    var fn = function(value){
+                        if (typeof value === "undefined"){
                             return _value;
-                        },
-                        set : function(value){
-                            _value = value;
-                            _handlers.forEach(function(handler){ handler() });
-                        },
-                        subscribe : function(handler){
-                            _handlers.push(handler);
                         }
+                        _value = value;
+                        _handlers.forEach(function(handler){ handler() });
+                    };
+                    fn.subscribe = function(handler){
+                        _handlers.push(handler);
                     }
+                    return fn;
                 })(value);
                 return observableObject;
             },
@@ -32,19 +31,38 @@
                     var attrName = $element.attr("data-bind");
                     var observable = dataObject[attrName];
                     $element.change(function(){
-                        observable.set($element.val());
+                        observable($element.val());
                     });
                     observable.subscribe(function(){
-                        $element.val(observable.get());
+                        $element.val(observable());
                     });
+                    $element.val(observable());
                 });
+
+                $("*[data-text]").each(function(index, element){
+                    var $element = $(element);
+                    var attrName = $element.attr("data-text");
+                    var observable = dataObject[attrName];
+                    observable.subscribe(function(){
+                        $element.html(observable());
+                    });
+                    $element.html(observable());
+                });
+
+
             }
         }
     })();
     window.addEventListener("DOMContentLoaded", init);
         function init(){
             window.emp = {
-                name : dataBinder.observable("Magesh")
+                firstName : dataBinder.observable("Magesh"),
+                lastName : dataBinder.observable("Kuppan"),
+                greetMsg : dataBinder.observable("[Greet message will be displayed here]"),
+                greet : function(){
+                    var msg = "Hi " + this.firstName() + " " + this.lastName();
+                    this.greetMsg(msg);
+                }
             }
             dataBinder.applyBindings(emp);
         }
@@ -57,8 +75,11 @@
     </script>
 </head>
 <body>
-    <input type="text" data-bind="name" id="txtName">
-    <input type="text">
-    <div data-text="name"></div>
+    <input type="text" data-bind="firstName" id="txtFirstName">
+    <input type="text" data-bind="lastName" id="txtLastName">
+
+    <input type="button" value="Greet" data-click="greet">
+
+    <div data-text="greetMsg"></div>
 </body>
 </html>
