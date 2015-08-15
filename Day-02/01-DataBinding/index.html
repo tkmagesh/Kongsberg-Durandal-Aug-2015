@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.11.2.js"></script>
+    <script>
+    var dataBinder = (function(){
+        return {
+            observable : function(value){
+                var observableObject = (function(value){
+                    var _value = value;
+                    var _handlers = [];
+                    return {
+                        get : function(){
+                            return _value;
+                        },
+                        set : function(value){
+                            _value = value;
+                            _handlers.forEach(function(handler){ handler() });
+                        },
+                        subscribe : function(handler){
+                            _handlers.push(handler);
+                        }
+                    }
+                })(value);
+                return observableObject;
+            },
+            applyBindings : function(dataObject){
+                $("*[data-bind]").each(function(index, element){
+                    var $element = $(element);
+                    var attrName = $element.attr("data-bind");
+                    var observable = dataObject[attrName];
+                    $element.change(function(){
+                        observable.set($element.val());
+                    });
+                    observable.subscribe(function(){
+                        $element.val(observable.get());
+                    });
+                });
+            }
+        }
+    })();
+    window.addEventListener("DOMContentLoaded", init);
+        function init(){
+            window.emp = {
+                name : dataBinder.observable("Magesh")
+            }
+            dataBinder.applyBindings(emp);
+        }
+    </script>
+</head>
+<body>
+    <input type="text" data-bind="name">
+    <input type="text" name="" id="">
+</body>
+</html>
